@@ -14,17 +14,52 @@ export class TachesComponent implements OnInit {
   newTache: Tache = {
     titre : '',
     termine : false,
-    type_tache : ''
+    statut : ''
   };  
+
+  //objet permettant de créer une tache avec un statut prédéfini
+  newTacheUndifined: Tache = { 
+    titre : '',
+    termine : false,
+    statut : 'Undefined'
+  };
+
+  newTacheEnAttente: Tache = { 
+    titre : '',
+    termine : false,
+    statut : 'En Attente'
+  };
+
+  newTacheEnCours: Tache = { 
+    titre : '',
+    termine : false,
+    statut : 'En Cours'
+  };
+
+  newTacheTerminer: Tache = { 
+    titre : '',
+    termine : true, //true car quand on ajoute la tache elle est deja terminé
+    statut : 'Terminer' //statute terminer à ne pas confondre avec le statut termine (le statut terminer met la tache dans la liste "Terminé", le statut termine raye la tache)
+  };
+  //
   
   filter:string = 'Tous';
+
+  //Ici les filtres pour chaque liste (voir filtre-tache.pipe.ts)
+  filterUndefined:string = 'Undefined'
+  filterEnAttente:string = 'En Attente'
+  filterEnCours:string = 'En Cours'
+  filterTerminer:string = 'Terminer'
+  //
+
+
 
   constructor(private tacheService: TachesService,
     private userService: UserService,
     private router: Router){ }
   
   ngOnInit(): void {
-    this.tacheService.getTaches().subscribe({ /* aller là ou ya tacheservice et creer un listeservice */
+    this.tacheService.getTaches().subscribe({ 
       next: (data:Array<Tache>) => { this.taches = data; }
       
     });
@@ -67,14 +102,41 @@ export class TachesComponent implements OnInit {
     this.filter = filter;
   }
 
-  /* Partie perso */
+  /* Fonctions permettant de créer une tache avec un certain statut de départ, grâce à des objets spécifiques */
   ajouterUndifined() {
-    this.tacheService.ajoutTaches(this.newTache).subscribe({
+    this.tacheService.ajoutTaches(this.newTacheUndifined).subscribe({
       next: (data) => {
         this.taches.push(data);
       }
     });
-    
+    window.location.reload(); //on rajoute cette ligne dans chaque fonctions pour rafraichir la page avec que les changements soient pris en compte (on a pas réussi à faire autrement, il n'y a que avec la liste "Tous" que le changement est immédiat)
   } 
+
+  ajouterEnAttente() {
+    this.tacheService.ajoutTaches(this.newTacheEnAttente).subscribe({
+      next: (data) => {
+        this.taches.push(data);
+      }
+    });
+    window.location.reload();
+  }
+
+  ajouterEnCours() {
+    this.tacheService.ajoutTaches(this.newTacheEnCours).subscribe({
+      next: (data) => {
+        this.taches.push(data);
+      }
+    });
+    window.location.reload();
+  }
+
+  ajouterTerminer() {
+    this.tacheService.ajoutTaches(this.newTacheTerminer).subscribe({
+      next: (data) => {
+        this.taches.push(data);
+      }
+    });
+    window.location.reload();
+  }
 }
 

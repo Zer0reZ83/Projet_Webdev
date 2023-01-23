@@ -68,9 +68,9 @@
 
             <div class="d-flex  justify-content-between">
                 <div id="listeTaches" class="d-flex  flex-column">
-                    <div class="d-flex justify-content-between m-1" *ngFor="let tache of (taches | filtreTache:filterEnCours)">
+                    <div class="d-flex justify-content-between m-1" *ngFor="let tache of (taches | filtreTache:filterEnCours)" cdkDropList id="list-two" [cdkDropListData]="taches" [cdkDropListConnectedTo]="['list-one']" (cdkDropListDropped)="drop($event)" cdkDropListSortingDisabled="true">
                         <input (click)="modifier(tache)" type="checkbox" [(ngModel)]="tache.termine">
-                        <div [ngClass]="tache.termine? 'text-decoration-line-through' : '' ">{{tache.titre}}</div>
+                        <div [ngClass]="tache.termine? 'text-decoration-line-through' : '' " cdkDrag>{{tache.titre}}</div>
                         <button class="btn btn-outline-danger m-1" (click)='supprimer(tache)'>Supprimer</button>
                     </div>
                 </div>
@@ -92,9 +92,9 @@
 
             <div class="d-flex  justify-content-between">
                 <div id="listeTaches" class="d-flex  flex-column">
-                    <div class="d-flex justify-content-between m-1" *ngFor="let tache of (taches | filtreTache:filterTerminer)">
+                    <div class="d-flex justify-content-between m-1" *ngFor="let tache of (taches | filtreTache:filterTerminer)" cdkDropList id="list-one" [cdkDropListData]="taches" [cdkDropListConnectedTo]="['list-two']" (cdkDropListDropped)="drop($event)" cdkDropListSortingDisabled="true">
                         <input (click)="modifier(tache)" type="checkbox" [(ngModel)]="tache.termine">
-                        <div [ngClass]="tache.termine? 'text-decoration-line-through' : '' ">{{tache.titre}}</div>
+                        <div [ngClass]="tache.termine? 'text-decoration-line-through' : '' " cdkDrag>{{tache.titre}}</div>
                         <button class="btn btn-outline-danger m-1" (click)='supprimer(tache)'>Supprimer</button>
                     </div>
                 </div>
@@ -102,7 +102,22 @@
 
         </div>
 
+        <!-- Drag and drop test 
+        <div class="example-container">
+            <h2>To do</h2>
 
+            <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo" [cdkDropListConnectedTo]="[doneList]" class="example-list" (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
+            </div>
+        </div>
+
+        <div class="example-container">
+            <h2>Done</h2>
+
+            <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="done" [cdkDropListConnectedTo]="[todoList]" class="example-list" (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
+            </div>
+        </div>-->
 
 
 

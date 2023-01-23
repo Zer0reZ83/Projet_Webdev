@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Tache } from 'src/app/model/tache';
 import { TachesService } from 'src/app/service/taches.service';
 import { UserService } from 'src/app/service/user.service';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop'; //pour le drag and drop
 
 @Component({
   selector: 'app-taches',
@@ -15,6 +16,7 @@ export class TachesComponent implements OnInit {
     titre : '',
     termine : false,
     statut : ''
+
   };  
 
   //objet permettant de créer une tache avec un statut prédéfini
@@ -39,7 +41,7 @@ export class TachesComponent implements OnInit {
   newTacheTerminer: Tache = { 
     titre : '',
     termine : true, //true car quand on ajoute la tache elle est deja terminé
-    statut : 'Terminer' //statute terminer à ne pas confondre avec le statut termine (le statut terminer met la tache dans la liste "Terminé", le statut termine raye la tache)
+    statut : 'Terminer' //statut terminer à ne pas confondre avec le statut termine (le statut terminer met la tache dans la liste "Terminé", le statut termine raye la tache)
   };
   //
   
@@ -137,6 +139,29 @@ export class TachesComponent implements OnInit {
       }
     });
     window.location.reload();
+  }
+
+  //Partie drag and drop
+  todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
+
+  done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
+
+  drop(event: CdkDragDrop<Tache[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+        
+      );
+      this.ajouterEnCours()//TU T'ES ARRETER ICI
+        
+        
+      
+    }
   }
 }
 

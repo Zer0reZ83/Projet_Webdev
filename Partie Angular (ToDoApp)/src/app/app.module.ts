@@ -9,8 +9,6 @@ import { LoginComponent } from './component/login/login.component';
 import { TachesComponent } from './component/taches/taches.component';
 import { FiltreTachePipe } from './pipe/filtre-tache.pipe';
 
-import { DragDropModule } from '@angular/cdk/drag-drop';  //etape 2) importation du drag and drop
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,8 +20,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';  //etape 2) importation
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
-    DragDropModule
+    FormsModule
  ],
   providers: [],
   bootstrap: [AppComponent]

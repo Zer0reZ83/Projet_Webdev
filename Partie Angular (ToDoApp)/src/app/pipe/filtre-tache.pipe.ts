@@ -4,6 +4,7 @@ import { Tache } from '../model/tache';
 @Pipe({
   name: 'filtreTache'
 })
+
 export class FiltreTachePipe implements PipeTransform {
 
   transform(value: Array<Tache>, filter:string): Array<Tache> {
@@ -21,8 +22,8 @@ export class FiltreTachePipe implements PipeTransform {
         break;
       default:
         return value;
-
     }
+
   }
 
 }

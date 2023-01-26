@@ -5,6 +5,8 @@ const mongodb = require('mongodb');
 const bodyParser = require('body-parser');
 const { tacheGet, tachePost, tacheDelete, tachePut } = require('./tacheController');
 const { signIn, login, logout, isConnected } = require('./authController');
+const { listeGet, listePost, listePut, listeDelete } = require('./listeController'); //on exporte les fonctions de listeController
+
 const cors = require('cors')
 
 const session = require('express-session');
@@ -40,6 +42,11 @@ app.get('/taches', checkSignIn, tacheGet);
 app.post('/taches', checkSignIn, tachePost);
 app.delete('/taches/:id', checkSignIn, tacheDelete);
 app.put('/taches/:id', checkSignIn, tachePut);
+//on rajoute les quatres méthodes pour les listes
+app.get('/listes', checkSignIn, listeGet);
+app.post('/listes', checkSignIn, listePost);
+app.delete('/listes/:id', checkSignIn, listeDelete);
+app.put('/listes/:id', checkSignIn, listePut);
 
 
 app.listen(port, () => {

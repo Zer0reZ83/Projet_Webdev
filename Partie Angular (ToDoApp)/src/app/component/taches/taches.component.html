@@ -3,99 +3,53 @@
     <button class="btn btn-outline-secondary m-1" (click)="loggout()">Logout</button>
 </div>
 
-<div class="container-fluid d-flex ">
-    <div class="row justify-content-center">
+<!-- Partie création de liste -->
+<div class="row">
+    <div class="col">
+        <div class="d-flex flex-row justify-content-center">
+            <input class="saisieInput" type="text" name="liste" placeholder="liste" [(ngModel)]="newListe.titre">
+            <button class="btn btn-primary" value="Ajouter" (click)='ajoutListe()'>Ajout Liste</button>
+        </div>
+    </div>
+</div>
 
 
+<div class="container-fluid ">
+    <div class="row ">
 
-        <!-- Deuxieme liste -->
 
-        <div class="col-3">
+        <!-- Template des listes (pas besoin de le mettre plusieurs fois car dès qu'une liste sera créer elle prendra ce modèle, et grace au container fluid et ses paramètres elles se placeront automatiquement au bon endroit) -->
+        <div class="col-3" *ngFor="let list of listes; let i = index;" id="{{list._id}}">
+            <!-- Ici on assigne le template de liste à la liste, et on précise l'index de la liste et de ses taches actuel. CdkListDropped pour update les données une fois qu'on a bougé une tache. -->
 
             <div class="bd-highlight d-flex justify-content-center">
-                <h2>Test</h2>
+                <h2>{{list.titre}}</h2>
+                <button class="btn btn-outline-danger m-1" (click)="supprimerListe(list)">Supprimer Liste</button>
             </div>
 
             <div class="d-flex flex-row justify-content-center">
-                <input id="inputAjoutTache" class="saisieInput" type="text" name="tache" placeholder="tache" [(ngModel)]="newTache.titre">
-                <button id="buttonAjoutTache" class="btn btn-primary" value="Ajouter" (click)='ajouter(newTache)'>Ajouter</button>
+                <input id="inputAjoutTache" class="saisieInput" type="text" name="tache" placeholder="tache" [(ngModel)]="newTaches[i].titre">
+                <!-- ici on met newTaches[i] car newTache est désormais une liste de tache (à ne pas confondre avec newTache)-->
+                <button id="buttonAjoutTache" class="btn btn-primary" value="Ajouter" (click)='ajouter(newTaches[i])'>Ajouter</button>
+                <!-- on ajoute notre newTaches à notre liste -->
             </div>
 
             <div class="d-flex  justify-content-between">
                 <div id="listeTaches" class="d-flex  flex-column">
-                    <div class="d-flex justify-content-between m-1" *ngFor="let tache of (taches | filtreTache:filter)">
+                    <div class="d-flex justify-content-between m-1" *ngFor="let tache of (taches | filtreTache:list._id)" id="{{tache._id}}">
+                        <!-- ici on dit que le filtre est l'id de la liste dans laquelle on est -->
+
                         <input (click)="modifier(tache)" type="checkbox" [(ngModel)]="tache.termine">
                         <div [ngClass]="tache.termine? 'text-decoration-line-through' : '' ">{{tache.statut}}</div>
-                        <!-- test au dessus pour voir si le statut de création de tache est bien pris en compte, si c'est le cas alors assigner le statut de la tache au titre de sa liste pour qu'au changement de liste la tache en question est seulement besoin de changer de statut  -->
                         <button class="btn btn-outline-danger m-1" (click)='supprimer(tache)'>Supprimer</button>
                     </div>
                 </div>
             </div>
 
         </div>
-
-
-        <!-- Troisième liste -->
-        <!--  
-        <div class="col-3">
-
-            <div class="bd-highlight d-flex justify-content-center">
-                <h2>En cours</h2>
-            </div>
-
-            <div class="d-flex flex-row justify-content-center">
-                <input id="inputAjoutTache" class="saisieInput" type="text" name="tache" placeholder="tache" [(ngModel)]="newTache.titre">
-                <button id="buttonAjoutTache" class="btn btn-primary" value="Ajouter" (click)='ajouter()'>Ajouter</button>
-            </div>
-
-            <div class="d-flex  justify-content-between">
-                <div id="listeTaches" class="d-flex  flex-column">
-                    <div class="d-flex justify-content-between m-1" *ngFor="let tache of (taches | filtreTache:filter)">
-                        <input (click)="modifier(tache)" type="checkbox" [(ngModel)]="tache.termine">
-                        <div [ngClass]="tache.termine? 'text-decoration-line-through' : '' ">{{tache.titre}}</div>
-                        <button class="btn btn-outline-danger m-1" (click)='supprimer(tache)'>Supprimer</button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        -->
-
-        <!-- Quatrième liste -->
-        <!--  
-        <div class="col-3">
-
-            <div class="bd-highlight d-flex justify-content-center">
-                <h2>Terminé</h2>
-            </div>
-
-            <div class="d-flex flex-row justify-content-center">
-                <input id="inputAjoutTache" class="saisieInput" type="text" name="tache" placeholder="tache" [(ngModel)]="newTache.titre">
-                <button id="buttonAjoutTache" class="btn btn-primary" value="Ajouter" (click)='ajouter()'>Ajouter</button>
-            </div>
-
-            <div class="d-flex  justify-content-between">
-                <div id="listeTaches" class="d-flex  flex-column">
-                    <div class="d-flex justify-content-between m-1" *ngFor="let tache of (taches | filtreTache:filter)">
-                        <input (click)="modifier(tache)" type="checkbox" [(ngModel)]="tache.termine">
-                        <div [ngClass]="tache.termine? 'text-decoration-line-through' : '' ">{{tache.titre}}</div>
-                        <button class="btn btn-outline-danger m-1" (click)='supprimer(tache)'>Supprimer</button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        -->
-
-
-
 
 
     </div>
-
-
-
-
 
 
 </div>

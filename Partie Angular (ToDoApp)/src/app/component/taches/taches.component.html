@@ -15,12 +15,12 @@
 
 
 <div class="container-fluid ">
-    <div class="row ">
-
+    <div class="row " cdkDropListGroup>
+        <!-- permet de créer les connexions entre les listes automatiquement. chaque nouvelle liste ajouté sera alors automatiquement connecté à toute les autres -->
 
         <!-- Template des listes (pas besoin de le mettre plusieurs fois car dès qu'une liste sera créer elle prendra ce modèle, et grace au container fluid et ses paramètres elles se placeront automatiquement au bon endroit) -->
-        <div class="col-3" *ngFor="let list of listes; let i = index;" id="{{list._id}}">
-            <!-- Ici on assigne le template de liste à la liste, et on précise l'index de la liste et de ses taches actuel. CdkListDropped pour update les données une fois qu'on a bougé une tache. -->
+        <div class="col-3" *ngFor="let list of listes; let i = index;" id="{{list._id}}" (cdkDropListDropped)="drop($event)" cdkDropList>
+            <!-- Ici on assigne le template de liste à la liste, et on précise l'index de la liste et de ses taches actuel. CdkListDropped pour update les données une fois qu'on a bougé une tache. CdkDropList pour connecter les listes entre elles -->
 
             <div class="bd-highlight d-flex justify-content-center">
                 <h2>{{list.titre}}</h2>
@@ -36,11 +36,12 @@
 
             <div class="d-flex  justify-content-between">
                 <div id="listeTaches" class="d-flex  flex-column">
-                    <div class="d-flex justify-content-between m-1" *ngFor="let tache of (taches | filtreTache:list._id)" id="{{tache._id}}">
+                    <div class="d-flex justify-content-between m-1" *ngFor="let tache of (taches | filtreTache:list._id)" id="{{tache._id}}" cdkDrag>
+                        <!-- Cdkdrag pour dire que les elements sont draggables. -->
                         <!-- ici on dit que le filtre est l'id de la liste dans laquelle on est -->
 
                         <input (click)="modifier(tache)" type="checkbox" [(ngModel)]="tache.termine">
-                        <div [ngClass]="tache.termine? 'text-decoration-line-through' : '' ">{{tache.statut}}</div>
+                        <div [ngClass]="tache.termine? 'text-decoration-line-through' : '' ">{{tache.titre}}</div>
                         <button class="btn btn-outline-danger m-1" (click)='supprimer(tache)'>Supprimer</button>
                     </div>
                 </div>

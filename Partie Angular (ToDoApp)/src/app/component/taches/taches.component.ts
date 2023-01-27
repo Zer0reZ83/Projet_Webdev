@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Tache, TacheImplement} from 'src/app/model/tache';
 import { Liste, ListeImplement} from 'src/app/model/liste';  //on importe l'objet liste
-import {ListeService} from "../../service/liste.service"; //on importe ListeService comme pour TacheService
+import { ListeService } from "../../service/liste.service"; //on importe ListeService comme pour TacheService
 import { TachesService } from 'src/app/service/taches.service';
 import { UserService } from 'src/app/service/user.service';
+import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";  //on importe le drag and drop 
 
 @Component({
   selector: 'app-taches',
@@ -117,5 +118,34 @@ export class TachesComponent implements OnInit {
       }
     });
   }
+
+
+
+  drop(event: CdkDragDrop<string[]>) {  //permet de mettre en place le drag and drop
+   
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } 
+    
+    else {
+      const elementId = event.item.element.nativeElement.id;
+      const listeDroppedId = event.container.element.nativeElement.id;
+      let droppedContainerID: Liste[] = this.listes.filter(t => t._id == listeDroppedId);
+
+      if (droppedContainerID.length > 0) {
+        const list: Liste = droppedContainerID[0];
+        for (const tache of this.taches) {
+          if (tache._id == elementId) {
+            tache.statut = list._id;
+            this.tacheService.updateTaches(tache).subscribe({
+              next: (data) => {}
+            });
+            break;
+          }
+        }
+      }
+    }
+  }
+
 
 }
